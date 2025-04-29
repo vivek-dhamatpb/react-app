@@ -6,21 +6,25 @@ phases:
       - echo Installing dependencies...
       - apt-get update
       - apt-get install -y docker.io awscli
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
       - echo "Region: $AWS_REGION, Account ID: $AWS_ACCOUNT_ID"
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/react-app
-      - export IMAGE_TAG=latest
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/react-app
+      - IMAGE_TAG=latest
+
   build:
     commands:
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+
   post_build:
     commands:
       - echo Pushing the Docker image to Amazon ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+
 artifacts:
   files: []
