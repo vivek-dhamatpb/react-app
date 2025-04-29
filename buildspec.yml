@@ -27,4 +27,7 @@ phases:
       - printf '[{"name":"React-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
-  files: imagedefinitions.json
+  files: 
+    - imagedefinitions.json
+    - appspec.yaml
+    - taskdef.json
