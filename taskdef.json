@@ -1,0 +1,24 @@
+{
+    "family": "react-taskdef",
+    "networkMode": "awsvpc",
+    "executionRoleArn": "arn:aws:iam::742834886101:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "my-react-app-container",
+        "image": "vivekpeerbits/react-app:latest",
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      }
+    ],
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
+  
