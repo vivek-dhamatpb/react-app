@@ -1,4 +1,5 @@
-FROM vivekpeerbits/node:18-alpine as build
+# FROM vivekpeerbits/node:18-alpine as build
+FROM node:18-alpine as build
 
 WORKDIR /app
 
@@ -8,7 +9,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM vivekpeerbits/nginx:stable-alpine
+# FROM vivekpeerbits/nginx:stable-alpine
+FROM nginx:stable-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
 
