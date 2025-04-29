@@ -10,9 +10,10 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
+      - echo "Region: $AWS_REGION, Account ID: $AWS_ACCOUNT_ID"
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/react-app
-      - IMAGE_TAG=latest
+      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/react-app
+      - export IMAGE_TAG=latest
   build:
     commands:
       - echo Building the Docker image...
