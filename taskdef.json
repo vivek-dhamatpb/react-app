@@ -89,6 +89,5 @@
     },
     "registeredAt": "2025-04-29T09:57:34.083Z",
     "registeredBy": "arn:aws:iam::742834886101:root",
-    "enableFaultInjection": false,
-    "tags": []
+    "enableFaultInjection": false
 }
