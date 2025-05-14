@@ -1,9 +1,7 @@
 name: Build and Push Docker Image
-
 on:
-  push:
-    branches:
-    - main
+  workflow_dispatch:
+
 
 jobs:
   build:
@@ -40,6 +38,9 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-          docker stop react-app || true && docker rm react-app || true
+          docker stop react-app || true
+          docker rm react-app || true
           docker run -d --name react-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+          docker container prune -f
+          docker image prune -f
         EOF
