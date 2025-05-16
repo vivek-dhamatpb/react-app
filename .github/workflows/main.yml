@@ -33,14 +33,8 @@ jobs:
         echo "${{ secrets.EC2_SSH_KEY_B64 }}" | base64 -d > key.pem
         chmod 600 key.pem
 
-    - name: SSH and deploy to EC2
+    - name: Copy and apply Kubernetes manifest on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-          docker stop react-app || true
-          docker rm react-app || true
-          docker run -d --name react-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-          docker container prune -f
-          docker image prune -f
-        EOF
+        scp -i key.pem -o StrictHostKeyChecking=no k8s/react-deployment.yaml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/ &&
+        ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+          "kubectl apply -f /home/ubuntu/react-deployment.yaml"
