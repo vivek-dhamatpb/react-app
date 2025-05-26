@@ -29,7 +29,7 @@ kind: Service
 metadata:
   name: react-app-service
 spec:
-  type: NodePort 
+  type: NodePort # <-- Changed from ClusterIP to NodePort
   selector:
     app: react-app
   ports:
